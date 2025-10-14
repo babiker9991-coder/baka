@@ -170,4 +170,29 @@ auth.onAuthStateChanged(user=>{
     else { document.getElementById('adminBox').style.display='none'; document.getElementById('notAdminMsg').style.display='block'; }
   } else {
     document.getElementById('openLoginBtn').style.display='inline-block';
-    document.getElementById('logoutBtn').style.display
+    document.getElementById('logoutBtn').style.display='none';
+    document.getElementById('adminBox').style.display='none';
+    document.getElementById('notAdminMsg').style.display='none';
+  }
+});
+
+// عرض المشاريع
+db.ref('projects').orderByChild('createdAt').on('value', snapshot=>{
+  const data = snapshot.val() || {};
+  const projectsGrid = document.getElementById('projectsGrid');
+  projectsGrid.innerHTML='';
+  Object.keys(data).sort((a,b)=>data[b].createdAt-data[a].createdAt).forEach(k=>{
+    const p = data[k];
+    const div = document.createElement('div');
+    div.className='proj-card';
+    div.innerHTML = `${p.image?`<img src="${p.image}" alt="${p.title}">`:''}<h4>${p.title}</h4><p>${p.desc}</p>`;
+    projectsGrid.appendChild(div);
+  });
+});
+
+// init
+showSection('home');
+</script>
+
+</body>
+</html>
