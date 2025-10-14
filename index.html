@@ -16,6 +16,10 @@
     <a href="#" onclick="showSection('contact')">تواصل</a>
     <a href="#" onclick="showSection('dashboard')">لوحة التحكم</a>
   </nav>
+  <div id="authButtons">
+    <button onclick="openLoginModal()">تسجيل الدخول</button>
+    <button id="logoutBtn" style="display:none" onclick="logout()">خروج</button>
+  </div>
 </header>
 
 <section id="home" class="page">
@@ -36,25 +40,38 @@
 
 <section id="dashboard" class="page" style="display:none">
   <h2>لوحة التحكم</h2>
-  <div id="adminBox">
+  <div id="adminBox" style="display:none">
     <input id="projTitle" placeholder="عنوان المشروع">
     <textarea id="projDesc" placeholder="وصف المشروع"></textarea>
     <input type="file" id="projImage" accept="image/*">
     <button onclick="addProject()">نشر المشروع</button>
     <p id="adminStatus"></p>
   </div>
+  <p id="notAdmin" style="display:none">يجب تسجيل الدخول كمشرف</p>
 </section>
+
+<!-- Login Modal -->
+<div id="loginModal" style="display:none">
+  <div style="background:#fff;padding:20px;max-width:300px;margin:100px auto;position:relative;">
+    <button onclick="closeLoginModal()" style="position:absolute;top:5px;right:5px">✖</button>
+    <h3>تسجيل الدخول</h3>
+    <input id="email" placeholder="البريد الإلكتروني">
+    <input id="password" placeholder="كلمة المرور" type="password">
+    <button onclick="login()">دخول</button>
+    <p id="loginStatus"></p>
+  </div>
+</div>
 
 <footer>
   <p>© 2025 الحضري للبرمجيات</p>
 </footer>
 
-<!-- Firebase Compat SDKs -->
+<!-- Firebase -->
 <script src="https://www.gstatic.com/firebasejs/10.14.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.0/firebase-database-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.0/firebase-storage-compat.js"></script>
-
 <script src="app.js"></script>
+
 </body>
 </html>
