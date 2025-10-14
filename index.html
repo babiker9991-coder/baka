@@ -1,38 +1,89 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>لوحة المشاريع | Alhadari Net</title>
-  <link rel="stylesheet" href="style.css">
+  <title>الحضري للبرمجيات - مشاريعنا</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="portfolio.css">
 </head>
 <body>
-  <div id="loginSection">
-    <h2>تسجيل الدخول</h2>
-    <input type="email" id="email" placeholder="البريد الإلكتروني">
-    <input type="password" id="password" placeholder="كلمة المرور">
-    <button id="loginBtn">دخول</button>
-    <p id="loginMessage"></p>
-  </div>
+  <header class="header">
+    <div class="container">
+      <h1 class="logo">الحضري للبرمجيات</h1>
+      <nav>
+        <a href="#home">الرئيسية</a>
+        <a href="#services">خدماتنا</a>
+        <a href="#projects">مشاريعنا</a>
+        <a href="#contact">تواصل معنا</a>
+      </nav>
+    </div>
+  </header>
 
-  <div id="adminPanel" style="display:none;">
-    <h2>لوحة التحكم</h2>
-    <button id="logoutBtn">تسجيل الخروج</button>
+  <section id="home" class="section home-section">
+    <div class="container">
+      <h2>نحو حلول برمجية مبتكرة</h2>
+      <p>نصمم ونطور تطبيقات ومواقع إلكترونية احترافية تلبي تطلعاتك</p>
+      <button class="btn primary">اعرف أكثر</button>
+    </div>
+  </section>
 
-    <h3>إضافة مشروع</h3>
-    <input type="text" id="projectName" placeholder="اسم المشروع">
-    <textarea id="projectDesc" placeholder="وصف المشروع"></textarea>
-    <button id="addProjectBtn">إضافة</button>
+  <section id="services" class="section services-section">
+    <div class="container">
+      <h2>خدماتنا</h2>
+      <div class="services-grid">
+        <div class="service-card">
+          <h3>تصميم واجهات مستخدم</h3>
+          <p>واجهات استخدام حديثة وسهلة التفاعل</p>
+        </div>
+        <div class="service-card">
+          <h3>تطوير مواقع إلكترونية</h3>
+          <p>مواقع سريعة وآمنة ومتجاوبة مع جميع الأجهزة</p>
+        </div>
+        <div class="service-card">
+          <h3>تطبيقات جوال</h3>
+          <p>تطبيقات مخصصة لأنظمة Android و iOS</p>
+        </div>
+      </div>
+    </div>
+  </section>
 
-    <h3>المشاريع الحالية</h3>
-    <ul id="projectList"></ul>
-  </div>
+  <section id="projects" class="section projects-section">
+    <div class="container">
+      <h2>مشاريعنا</h2>
+      <div class="projects-grid">
+        <div class="project-card">
+          <img src="https://via.placeholder.com/300x200.png?text=Project+1" alt="Project 1">
+          <h4>موقع تجارة إلكترونية</h4>
+        </div>
+        <div class="project-card">
+          <img src="https://via.placeholder.com/300x200.png?text=Project+2" alt="Project 2">
+          <h4>تطبيق توصيل طلبات</h4>
+        </div>
+        <div class="project-card">
+          <img src="https://via.placeholder.com/300x200.png?text=Project+3" alt="Project 3">
+          <h4>منصة تعليمية</h4>
+        </div>
+        <div class="project-card">
+          <img src="https://via.placeholder.com/300x200.png?text=Project+4" alt="Project 4">
+          <h4>لوحة تحكم للإدارة</h4>
+        </div>
+      </div>
+    </div>
+  </section>
 
-  <!-- مكتبات Firebase المتوافقة (بدون import/export) -->
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+  <section id="contact" class="section contact-section">
+    <div class="container">
+      <h2>تواصل معنا</h2>
+      <p>📧 البريد الإلكتروني: babiker9991@gmail.com</p>
+      <p>📞 الهاتف: +249900599203</p>
+    </div>
+  </section>
 
-  <script src="app.js"></script>
+  <footer class="footer">
+    <div class="container">
+      <p>© 2025 الحضري للبرمجيات</p>
+    </div>
+  </footer>
 </body>
 </html>
