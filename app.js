@@ -1,65 +1,140 @@
-// إعداد Firebase
+/* ====== Firebase Config ====== */
 const firebaseConfig = {
-  apiKey: "ضع_هنا_apiKey",
-  authDomain: "ضع_هنا_authDomain",
-  databaseURL: "ضع_هنا_databaseName.firebaseio.com",
-  projectId: "ضع_هنا_projectId",
-  storageBucket: "ضع_هنا_storageBucket",
-  messagingSenderId: "ضع_هنا_senderId",
-  appId: "ضع_هنا_appId"
-};
-firebase.initializeApp(firebaseConfig);
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
 
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyAWp1YvxwS_RGi9n3j_PPSnTcjM6Y8l-k0",
+  authDomain: "sport-f707c.firebaseapp.com",
+  projectId: "sport-f707c",
+  storageBucket: "sport-f707c.firebasestorage.app",
+  messagingSenderId: "339029738153",
+  appId: "1:339029738153:web:c9bbedfab4f23509879fb8",
+  measurementId: "G-4F1CBCH559"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+};
+
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db = firebase.database();
 const storage = firebase.storage();
 
-// UID المشرف
+/* ====== إعداد المشرف ====== */
 const ADMIN_UID = "ضع_هنا_UID_المشرف";
 
-// DOM
+/* ====== عناصر DOM ====== */
 const projectsGrid = document.getElementById('projectsGrid');
 const adminBox = document.getElementById('adminBox');
-const loginBox = document.getElementById('loginBox');
-const status = document.getElementById('status');
-const loginStatus = document.getElementById('loginStatus');
+const notAdminMsg = document.getElementById('notAdminMsg');
+const adminStatus = document.getElementById('adminStatus');
+const adminProjectsList = document.getElementById('adminProjectsList');
 
+const loginModal = document.getElementById('loginModal');
+const loginBtn = document.getElementById('loginBtn');
+const logoutBtn = document.getElementById('logoutBtn');
+
+/* ====== عرض/إخفاء الأقسام ====== */
 function showSection(id){
-  document.querySelectorAll('section').forEach(s=>s.style.display='none');
-  document.getElementById(id).style.display='block';
+  document.querySelectorAll('.page').forEach(p=>p.style.display='none');
+  const el = document.getElementById(id);
+  if(el) el.style.display='block';
 }
 
-// تسجيل دخول
-function login(){
-  const email = document.getElementById('loginEmail').value;
-  const pw = document.getElementById('loginPassword').value;
-  loginStatus.textContent='';
-  auth.signInWithEmailAndPassword(email,pw)
-    .then(userCredential=>{
-      const user = userCredential.user;
-      if(user.uid===ADMIN_UID) adminBox.style.display='block';
-      loginBox.style.display='none';
-      loginStatus.textContent='تم تسجيل الدخول';
-    }).catch(e=>{loginStatus.textContent=e.message;});
+/* ====== تسجيل الدخول ====== */
+loginBtn.addEventListener('click', async ()=>{
+  const email = document.getElementById('loginEmail').value.trim();
+  const pw = document.getElementById('loginPassword').value.trim();
+  const status = document.getElementById('loginStatus');
+  status.textContent = '';
+  if(!email || !pw){ status.textContent='املأ البريد وكلمة المرور'; return; }
+  try{
+    await auth.signInWithEmailAndPassword(email,pw);
+    status.textContent='تم تسجيل الدخول';
+    loginModal.style.display='none';
+  }catch(e){
+    console.error(e); status.textContent='خطأ: '+e.message;
+  }
+});
+
+/* ====== تسجيل الخروج ====== */
+async function signOutUser(){
+  await auth.signOut();
 }
 
-// إضافة مشروع
-function addProject(){
-  const title = document.getElementById('projTitle').value;
-  const desc = document.getElementById('projDesc').value;
+/* ====== مراقبة حالة المصادقة ====== */
+auth.onAuthStateChanged(user=>{
+  if(user){
+    logoutBtn.style.display='inline-block';
+    if(user.uid === ADMIN_UID){
+      adminBox.style.display='block';
+      notAdminMsg.style.display='none';
+      showSection('dashboard');
+    } else {
+      adminBox.style.display='none';
+      notAdminMsg.style.display='block';
+      showSection('dashboard');
+    }
+  } else {
+    logoutBtn.style.display='none';
+    adminBox.style.display='none';
+    notAdminMsg.style.display='none';
+    showSection('home');
+  }
+});
+
+/* ====== إضافة مشروع ====== */
+document.getElementById('addProjectBtn').addEventListener('click', async ()=>{
+  const title = document.getElementById('projTitle').value.trim();
+  const desc = document.getElementById('projDesc').value.trim();
   const file = document.getElementById('projImage').files[0];
-  if(!title || !desc){ status.textContent='املأ جميع الحقول'; return; }
-  if(!auth.currentUser || auth.currentUser.uid!==ADMIN_UID){ status.textContent='أنت لست مشرفاً'; return; }
+  adminStatus.textContent = '';
+  if(!title || !desc){ adminStatus.textContent = 'املأ العنوان والوصف'; return; }
+  if(!auth.currentUser || auth.currentUser.uid !== ADMIN_UID){ adminStatus.textContent = 'أنت لست مشرفاً'; return; }
 
-  const newRef = db.ref('projects').push();
-  const id = newRef.key;
-  status.textContent='⏳ جاري رفع المشروع...';
+  adminStatus.textContent = '⏳ جاري رفع المشروع...';
+  try{
+    const newRef = db.ref('projects').push();
+    const id = newRef.key;
+    let imageUrl = '';
+    if(file){
+      const storageRef = storage.ref().child('projects/'+id+'_'+file.name);
+      await storageRef.put(file);
+      imageUrl = await storageRef.getDownloadURL();
+    }
+    await newRef.set({ title, desc, image: imageUrl, createdAt: Date.now() });
+    adminStatus.textContent = '✅ تم نشر المشروع';
+    document.getElementById('projTitle').value='';
+    document.getElementById('projDesc').value='';
+    document.getElementById('projImage').value='';
+  }catch(e){
+    console.error(e);
+    adminStatus.textContent = '❌ خطأ: '+e.message;
+  }
+});
 
-  if(file){
-    const storageRef = storage.ref('projects/'+id+'_'+file.name);
-    storageRef.put(file).then(()=>storageRef.getDownloadURL().then(url=>{
-      newRef.set({title,desc,image:url,createdAt:Date.now()});
-      status.textContent='✅ تم النشر';
-      loadProjects();
-      document.getElementById('projTitle').value='';
-      document
+/* ====== تحميل المشاريع ====== */
+function listenProjects(){
+  db.ref('projects').orderByChild('createdAt').on('value', snapshot=>{
+    const data = snapshot.val() || {};
+    projectsGrid.innerHTML = '';
+    Object.keys(data).sort((a,b)=>data[b].createdAt - data[a].createdAt).forEach(id=>{
+      const p = data[id];
+      const div = document.createElement('div'); div.className='proj-card';
+      div.innerHTML = `${p.image?`<img src="${p.image}">`:''}<h4>${p.title}</h4><p>${p.desc}</p>`;
+      projectsGrid.appendChild(div);
+    });
+  });
+}
+
+/* ====== تشغيل ====== */
+listenProjects();
