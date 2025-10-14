@@ -1,198 +1,64 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>الحضري للبرمجيات</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>الحضري للبرمجيات</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<header class="site-header">
-  <div class="inner">
-    <div class="logo">💻 الحضري للبرمجيات</div>
-    <nav class="main-nav">
-      <a href="#home" onclick="showSection('home')">الرئيسية</a>
-      <a href="#projects" onclick="showSection('projects')">مشاريعنا</a>
-      <a href="#contact" onclick="showSection('contact')">تواصل</a>
-      <a href="#" id="openDashboardBtn" onclick="showSection('dashboard')">لوحة التحكم</a>
-    </nav>
-    <div class="auth-area">
-      <button class="btn ghost" id="openLoginBtn" onclick="openLoginModal()">تسجيل الدخول</button>
-      <button class="btn" id="logoutBtn" style="display:none" onclick="signOutUser()">خروج</button>
-    </div>
+<header>
+  <div class="logo">💻 الحضري للبرمجيات</div>
+  <nav>
+    <a href="#" onclick="showSection('home')">الرئيسية</a>
+    <a href="#" onclick="showSection('projects')">مشاريعنا</a>
+    <a href="#" onclick="showSection('dashboard')">لوحة التحكم</a>
+  </nav>
+  <div class="auth">
+    <button id="loginBtn" onclick="openLoginModal()">تسجيل الدخول</button>
+    <button id="logoutBtn" onclick="signOutUser()" style="display:none">خروج</button>
   </div>
 </header>
 
 <section id="home" class="page">
-  <div class="hero">
-    <div class="hero-left">
-      <h1>نحو حلول رقمية احترافية</h1>
-      <p>نصمّم ونطوّر مواقع وتطبيقات متكاملة تناسب احتياجات المؤسسات والشركات.</p>
-      <button class="btn" onclick="showSection('projects')">شاهد مشاريعنا</button>
-    </div>
-    <div class="hero-right">
-      <img src="https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&w=800&q=80" alt="Dev">
-    </div>
-  </div>
+  <h1>مرحبا بكم في الحضري للبرمجيات</h1>
+  <p>نصمم ونطور مواقع وتطبيقات احترافية</p>
 </section>
 
 <section id="projects" class="page" style="display:none">
-  <h2>أبرز مشاريعنا</h2>
-  <div id="projectsGrid" class="projects-grid"></div>
-</section>
-
-<section id="contact" class="page" style="display:none">
-  <h2>تواصل معنا</h2>
-  <p>📧 <a href="mailto:babiker9991@gmail.com">babiker9991@gmail.com</a></p>
-  <p>📞 +249900599203</p>
+  <h2>مشاريعنا</h2>
+  <div id="projectsGrid"></div>
 </section>
 
 <section id="dashboard" class="page" style="display:none">
-  <h2>لوحة التحكم (المشرف)</h2>
+  <h2>لوحة تحكم المشرف</h2>
   <div id="adminBox" style="display:none">
-    <h3>أضف مشروع جديد</h3>
     <input id="projTitle" placeholder="عنوان المشروع">
     <textarea id="projDesc" placeholder="وصف المشروع"></textarea>
     <input type="file" id="projImage" accept="image/*">
-    <button class="btn" id="addProjectBtn">نشر المشروع</button>
+    <button onclick="addProject()">نشر المشروع</button>
     <p id="adminStatus"></p>
-    <hr>
-    <h3>قائمة المشاريع</h3>
-    <div id="adminProjectsList"></div>
   </div>
-  <div id="notAdminMsg" style="display:none">
-    <p>يجب تسجيل الدخول كمشرف لعرض لوحة التحكم.</p>
-  </div>
+  <p id="notAdminMsg" style="display:none">يجب تسجيل الدخول كمشرف</p>
 </section>
 
+<!-- Login Modal -->
 <div id="loginModal" style="display:none">
-  <div class="sheet">
-    <button onclick="closeLoginModal()">✖</button>
-    <h3>تسجيل الدخول (مشرف)</h3>
-    <input id="loginEmail" placeholder="البريد الإلكتروني">
-    <input id="loginPassword" placeholder="كلمة المرور" type="password">
-    <button id="loginBtn">دخول</button>
-    <p id="loginStatus"></p>
-  </div>
+  <input id="loginEmail" placeholder="البريد الإلكتروني">
+  <input id="loginPassword" placeholder="كلمة المرور" type="password">
+  <button onclick="loginUser()">دخول</button>
+  <button onclick="closeLoginModal()">إغلاق</button>
+  <p id="loginStatus"></p>
 </div>
 
-<footer>
-  <p>© 2025 الحضري للبرمجيات</p>
-</footer>
-
-<!-- Firebase SDKs (compat) -->
 <script src="https://www.gstatic.com/firebasejs/10.14.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.0/firebase-database-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.0/firebase-storage-compat.js"></script>
 
-<!-- Firebase config + app.js -->
-<script>
-// إعداد Firebase (ضع معلومات مشروعك هنا)
-const firebaseConfig = {
-  apiKey: "AIzaSyDxoEJLaGcEy7s1P2nE2_bDniS71ldI31Q",
-  authDomain: "alhadari-net.firebaseapp.com",
-  databaseURL: "https://alhadari-net-default-rtdb.firebaseio.com",
-  projectId: "alhadari-net",
-  storageBucket: "alhadari-net.firebasestorage.app",
-  messagingSenderId: "465757130283",
-  appId: "1:465757130283:web:10128c19bef6171e5e246e",
-  measurementId: "G-XLQB1M9FHQ"
-};
-firebase.initializeApp(firebaseConfig);
-const auth = firebase.auth();
-const db = firebase.database();
-const storage = firebase.storage();
-
-// ضع UID المشرف بعد إنشائه في Firebase Auth
-const ADMIN_UID = "ضع_UID_هنا";
-
-// ====== وظائف واجهة المستخدم ======
-function showSection(id){
-  document.querySelectorAll('.page').forEach(p=>p.style.display='none');
-  const el = document.getElementById(id);
-  if(el) el.style.display='block';
-}
-
-function openLoginModal(){ document.getElementById('loginModal').style.display='flex'; }
-function closeLoginModal(){ document.getElementById('loginModal').style.display='none'; }
-
-function signOutUser(){ auth.signOut().then(()=>alert('تم الخروج')); }
-
-// إضافة مشروع
-document.getElementById('addProjectBtn').addEventListener('click', async ()=>{
-  const title = document.getElementById('projTitle').value.trim();
-  const desc = document.getElementById('projDesc').value.trim();
-  const file = document.getElementById('projImage').files[0];
-  const status = document.getElementById('adminStatus');
-  status.textContent = '';
-  if(!title || !desc){ status.textContent='املأ العنوان والوصف'; return; }
-  if(!auth.currentUser || auth.currentUser.uid!==ADMIN_UID){ status.textContent='أنت لست مشرفاً'; return; }
-
-  status.textContent='⏳ جاري رفع المشروع...';
-  try{
-    const newRef = db.ref('projects').push();
-    const id = newRef.key;
-    let imageUrl='';
-    if(file){
-      const storageRef = storage.ref('projects/'+id+'_'+file.name);
-      await storageRef.put(file);
-      imageUrl = await storageRef.getDownloadURL();
-    }
-    await newRef.set({ title, desc, image: imageUrl, createdAt: Date.now() });
-    status.textContent='✅ تم نشر المشروع';
-    document.getElementById('projTitle').value='';
-    document.getElementById('projDesc').value='';
-    document.getElementById('projImage').value='';
-  }catch(e){ status.textContent='❌ خطأ: '+e.message; console.error(e);}
-});
-
-// تسجيل الدخول
-document.getElementById('loginBtn').addEventListener('click', ()=>{
-  const email = document.getElementById('loginEmail').value.trim();
-  const pw = document.getElementById('loginPassword').value.trim();
-  const status = document.getElementById('loginStatus');
-  status.textContent='';
-  if(!email || !pw){ status.textContent='املأ البريد وكلمة المرور'; return; }
-  auth.signInWithEmailAndPassword(email,pw)
-      .then(()=>{ status.textContent='تم تسجيل الدخول'; closeLoginModal(); })
-      .catch(e=>{ status.textContent='خطأ: '+e.message; console.error(e); });
-});
-
-// Auth state
-auth.onAuthStateChanged(user=>{
-  if(user){
-    document.getElementById('openLoginBtn').style.display='none';
-    document.getElementById('logoutBtn').style.display='inline-block';
-    if(user.uid===ADMIN_UID){ document.getElementById('adminBox').style.display='block'; document.getElementById('notAdminMsg').style.display='none'; }
-    else { document.getElementById('adminBox').style.display='none'; document.getElementById('notAdminMsg').style.display='block'; }
-  } else {
-    document.getElementById('openLoginBtn').style.display='inline-block';
-    document.getElementById('logoutBtn').style.display='none';
-    document.getElementById('adminBox').style.display='none';
-    document.getElementById('notAdminMsg').style.display='none';
-  }
-});
-
-// عرض المشاريع
-db.ref('projects').orderByChild('createdAt').on('value', snapshot=>{
-  const data = snapshot.val() || {};
-  const projectsGrid = document.getElementById('projectsGrid');
-  projectsGrid.innerHTML='';
-  Object.keys(data).sort((a,b)=>data[b].createdAt-data[a].createdAt).forEach(k=>{
-    const p = data[k];
-    const div = document.createElement('div');
-    div.className='proj-card';
-    div.innerHTML = `${p.image?`<img src="${p.image}" alt="${p.title}">`:''}<h4>${p.title}</h4><p>${p.desc}</p>`;
-    projectsGrid.appendChild(div);
-  });
-});
-
-// init
-showSection('home');
-</script>
+<script src="firebase-config.js"></script>
+<script src="app.js"></script>
 
 </body>
 </html>
