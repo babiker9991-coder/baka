@@ -1,66 +1,87 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>الحضري للبرمجيات</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>الحضري للبرمجيات</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<header>
-  <div class="logo">💻 الحضري للبرمجيات</div>
-  <nav>
-    <a href="#" onclick="showSection('home')">الرئيسية</a>
-    <a href="#" onclick="showSection('projects')">مشاريعنا</a>
-    <a href="#" onclick="showSection('contact')">تواصل</a>
-    <a href="#" onclick="showSection('dashboard')">لوحة التحكم</a>
-  </nav>
-  <button onclick="openLoginModal()">تسجيل الدخول</button>
+<header class="site-header">
+  <div class="inner">
+    <div class="logo">💻 الحضري للبرمجيات</div>
+    <nav class="main-nav">
+      <a href="#" onclick="showSection('home')">الرئيسية</a>
+      <a href="#" onclick="showSection('projects')">مشاريعنا</a>
+      <a href="#" onclick="showSection('contact')">تواصل</a>
+      <a href="#" onclick="showSection('dashboard')">لوحة التحكم</a>
+    </nav>
+    <div class="auth-area">
+      <button class="btn ghost" onclick="openLoginModal()">تسجيل الدخول</button>
+      <button class="btn" id="logoutBtn" style="display:none">خروج</button>
+    </div>
+  </div>
 </header>
 
-<!-- الأقسام -->
 <section id="home" class="page">
-  <h1>نحو حلول رقمية احترافية</h1>
-  <p>تصميم وتطوير مواقع وتطبيقات متكاملة</p>
+  <div class="hero">
+    <div class="hero-left">
+      <h1>نحو حلول رقمية احترافية</h1>
+      <p>نصمّم ونطوّر مواقع وتطبيقات متكاملة تناسب احتياجات المؤسسات والشركات.</p>
+    </div>
+    <div class="hero-right">
+      <img src="https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&w=800&q=80" alt="Dev">
+    </div>
+  </div>
 </section>
 
-<section id="projects" class="page" style="display:none;">
-  <h2>مشاريعنا</h2>
-  <div id="projectsGrid"></div>
+<section id="projects" class="page" style="display:none">
+  <h2>أبرز مشاريعنا</h2>
+  <div id="projectsGrid" class="projects-grid"></div>
 </section>
 
-<section id="contact" class="page" style="display:none;">
+<section id="contact" class="page" style="display:none">
   <h2>تواصل معنا</h2>
-  <p>📧 babiker9991@gmail.com</p>
+  <p>📧 <a href="mailto:babiker9991@gmail.com">babiker9991@gmail.com</a></p>
   <p>📞 +249900599203</p>
 </section>
 
-<section id="dashboard" class="page" style="display:none;">
+<section id="dashboard" class="page" style="display:none">
   <h2>لوحة التحكم (المشرف)</h2>
-  <div id="adminBox" style="display:none;">
+  <div id="adminBox" style="display:none">
+    <h3>أضف مشروع جديد</h3>
     <input id="projTitle" placeholder="عنوان المشروع">
     <textarea id="projDesc" placeholder="وصف المشروع"></textarea>
-    <input type="file" id="projImage">
-    <button onclick="addProject()">نشر المشروع</button>
+    <input type="file" id="projImage" accept="image/*">
+    <button id="addProjectBtn">نشر المشروع</button>
     <p id="adminStatus"></p>
-    <h3>المشاريع الحالية</h3>
+    <hr>
+    <h3>قائمة المشاريع</h3>
     <div id="adminProjectsList"></div>
   </div>
-  <div id="notAdminMsg">يجب تسجيل الدخول كمشرف</div>
+  <div id="notAdminMsg" style="display:none">
+    <p>يجب تسجيل الدخول كمشرف لعرض لوحة التحكم.</p>
+  </div>
 </section>
 
-<!-- Login Modal -->
-<div id="loginModal" style="display:none;">
-  <input id="loginEmail" placeholder="البريد">
-  <input id="loginPassword" placeholder="كلمة المرور" type="password">
-  <button onclick="login()">دخول</button>
-  <button onclick="closeLoginModal()">إغلاق</button>
+<div id="loginModal" class="modal" style="display:none">
+  <div class="sheet">
+    <button class="close-btn" onclick="closeLoginModal()">✖</button>
+    <h3>تسجيل الدخول</h3>
+    <input id="loginEmail" placeholder="البريد الإلكتروني">
+    <input id="loginPassword" placeholder="كلمة المرور" type="password">
+    <button onclick="login()">دخول</button>
+    <p id="loginStatus"></p>
+  </div>
 </div>
 
-<footer>© 2025 الحضري للبرمجيات</footer>
+<footer>
+  <p>© 2025 الحضري للبرمجيات</p>
+</footer>
 
-<!-- Firebase -->
+<!-- Firebase SDK -->
 <script src="https://www.gstatic.com/firebasejs/10.14.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.0/firebase-database-compat.js"></script>
