@@ -1,4 +1,4 @@
-// إعداد Firebase
+// Firebase config
 const firebaseConfig = {
   apiKey: "AIzaSyDxoEJLaGcEy7s1P2nE2_bDniS71ldI31Q",
   authDomain: "alhadari-net.firebaseapp.com",
@@ -10,74 +10,71 @@ const firebaseConfig = {
   measurementId: "G-XLQB1M9FHQ"
 };
 
-// تهيئة الاتصال
+// Initialize Firebase
 firebase.initializeApp(firebaseConfig);
-
-// المتغيرات العامة
 const auth = firebase.auth();
 const db = firebase.database();
-const adminEmail = "babiker@gmail.com"; // المشرف الوحيد
+const storage = firebase.storage();
 
-// تسجيل الدخول
-document.getElementById("loginBtn").addEventListener("click", () => {
-  const email = document.getElementById("email").value.trim();
-  const password = document.getElementById("password").value.trim();
+// المشرف
+const ADMIN_UID = "k20NLjvISFhaUL7roFU9diedfi32";
 
-  auth.signInWithEmailAndPassword(email, password)
-    .then(userCredential => {
-      const user = userCredential.user;
-      if (user.email === adminEmail) {
-        document.getElementById("loginSection").style.display = "none";
-        document.getElementById("adminPanel").style.display = "block";
-        loadProjects();
-      } else {
-        document.getElementById("loginMessage").innerText = "فقط المشرف يمكنه الدخول!";
-        auth.signOut();
-      }
-    })
-    .catch(error => {
-      document.getElementById("loginMessage").innerText = error.message;
-    });
-});
+// DOM Elements
+const loginModal = document.getElementById('loginModal');
+const loginBtn = document.getElementById('loginBtn');
+const openLoginBtn = document.getElementById('openLoginBtn');
+const logoutBtn = document.getElementById('logoutBtn');
+const adminBox = document.getElementById('adminBox');
+const notAdminMsg = document.getElementById('notAdminMsg');
+const adminStatus = document.getElementById('adminStatus');
+const projectsGrid = document.getElementById('projectsGrid');
+const adminProjectsList = document.getElementById('adminProjectsList');
 
-// تسجيل الخروج
-document.getElementById("logoutBtn").addEventListener("click", () => {
-  auth.signOut();
-  document.getElementById("adminPanel").style.display = "none";
-  document.getElementById("loginSection").style.display = "block";
-});
+// Show/hide sections
+function showSection(id){
+  document.querySelectorAll('.page').forEach(p=>p.style.display='none');
+  const el = document.getElementById(id);
+  if(el) el.style.display='block';
+}
 
-// إضافة مشروع
-document.getElementById("addProjectBtn").addEventListener("click", () => {
-  const name = document.getElementById("projectName").value.trim();
-  const desc = document.getElementById("projectDesc").value.trim();
+// Login Modal
+function openLoginModal(){ loginModal.style.display='flex'; }
+function closeLoginModal(){ loginModal.style.display='none'; }
 
-  if (name && desc) {
-    const newRef = db.ref("projects").push();
-    newRef.set({
-      name,
-      description: desc,
-      date: new Date().toLocaleString()
-    });
-    document.getElementById("projectName").value = "";
-    document.getElementById("projectDesc").value = "";
-    loadProjects();
-  } else {
-    alert("أدخل جميع البيانات");
+// Login
+loginBtn.addEventListener('click', async ()=>{
+  const email = document.getElementById('loginEmail').value;
+  const pw = document.getElementById('loginPassword').value;
+  try {
+    await auth.signInWithEmailAndPassword(email,pw);
+    closeLoginModal();
+  } catch(e){
+    document.getElementById('loginStatus').textContent=e.message;
   }
 });
 
-// تحميل المشاريع
-function loadProjects() {
-  const list = document.getElementById("projectList");
-  list.innerHTML = "";
-  db.ref("projects").on("value", snapshot => {
-    list.innerHTML = "";
-    snapshot.forEach(child => {
-      const data = child.val();
-      const li = document.createElement("li");
-      li.textContent = `${data.name} - ${data.description} (${data.date})`;
-      list.appendChild(li);
-    });
-  });
-}
+// Logout
+function signOutUser(){ auth.signOut(); }
+
+// Auth state
+auth.onAuthStateChanged(user=>{
+  if(user){
+    openLoginBtn.style.display='none';
+    logoutBtn.style.display='inline-block';
+    if(user.uid === ADMIN_UID){
+      adminBox.style.display='block';
+      notAdminMsg.style.display='none';
+    } else {
+      adminBox.style.display='none';
+      notAdminMsg.style.display='block';
+    }
+  } else {
+    openLoginBtn.style.display='inline-block';
+    logoutBtn.style.display='none';
+    adminBox.style.display='none';
+    notAdminMsg.style.display='none';
+  }
+});
+
+// Add project
+document.get
