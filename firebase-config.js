@@ -1,5 +1,10 @@
-// لا تعيد تعريف firebaseConfig في أي مكان آخر
-window.firebaseConfig = {
+// firebase-config.js
+import { initializeApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
+import { getDatabase } from "firebase/database";
+import { getStorage } from "firebase/storage";
+
+const firebaseConfig = {
   apiKey: "AIzaSyDxoEJLaGcEy7s1P2nE2_bDniS71ldI31Q",
   authDomain: "alhadari-net.firebaseapp.com",
   databaseURL: "https://alhadari-net-default-rtdb.firebaseio.com",
@@ -10,7 +15,9 @@ window.firebaseConfig = {
   measurementId: "G-XLQB1M9FHQ"
 };
 
-firebase.initializeApp(window.firebaseConfig);
-window.auth = firebase.auth();
-window.db = firebase.database();
-window.storage = firebase.storage();
+// تهيئة Firebase
+const app = initializeApp(firebaseConfig);
+
+export const auth = getAuth(app);
+export const db = getDatabase(app);
+export const storage = getStorage(app);
