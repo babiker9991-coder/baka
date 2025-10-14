@@ -1,96 +1,44 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>الحضري للبرمجيات</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>لوحة إدارة المشاريع</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<header class="site-header">
-  <div class="inner">
-    <div class="logo">💻 الحضري للبرمجيات</div>
-    <nav class="main-nav">
-      <a href="#home" onclick="showSection('home')">الرئيسية</a>
-      <a href="#projects" onclick="showSection('projects')">مشاريعنا</a>
-      <a href="#contact" onclick="showSection('contact')">تواصل</a>
-      <a href="#" id="openDashboardBtn" onclick="showSection('dashboard')">لوحة التحكم</a>
+  <header>
+    <h1>نظام إدارة المشاريع</h1>
+    <nav>
+      <a href="#" onclick="showSection('loginSection')">تسجيل الدخول</a>
+      <a href="#" onclick="showSection('dashboardSection')">لوحة التحكم</a>
     </nav>
-    <div class="auth-area" id="authArea">
-      <button class="btn ghost" id="openLoginBtn" onclick="openLoginModal()">تسجيل الدخول</button>
-      <button class="btn" id="logoutBtn" style="display:none" onclick="signOutUser()">خروج</button>
+  </header>
+
+  <section id="loginSection" class="section">
+    <h2>تسجيل الدخول</h2>
+    <input type="email" id="email" placeholder="البريد الإلكتروني"><br>
+    <input type="password" id="password" placeholder="كلمة المرور"><br>
+    <button id="loginBtn">دخول</button>
+    <p id="loginStatus"></p>
+  </section>
+
+  <section id="dashboardSection" class="section" style="display:none;">
+    <h2>لوحة التحكم (المشرف)</h2>
+    <div id="projectForm">
+      <input type="text" id="projectName" placeholder="اسم المشروع"><br>
+      <textarea id="projectDesc" placeholder="وصف المشروع"></textarea><br>
+      <button id="addProjectBtn">إضافة مشروع</button>
     </div>
-  </div>
-</header>
-
-<section id="home" class="page">
-  <div class="hero">
-    <div class="hero-left">
-      <h1>نحو حلول رقمية احترافية</h1>
-      <p>نصمّم ونطوّر مواقع وتطبيقات متكاملة تناسب احتياجات المؤسسات والشركات.</p>
-      <button class="btn" onclick="showSection('projects')">شاهد مشاريعنا</button>
-    </div>
-    <div class="hero-right">
-      <img src="https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&w=800&q=80" alt="Dev">
-    </div>
-  </div>
-</section>
-
-<section id="projects" class="page" style="display:none">
-  <h2>أبرز مشاريعنا</h2>
-  <div id="projectsGrid" class="projects-grid"></div>
-</section>
-
-<section id="contact" class="page" style="display:none">
-  <h2>تواصل معنا</h2>
-  <p>📧 <a href="mailto:babiker9991@gmail.com">babiker9991@gmail.com</a></p>
-  <p>📞 +249900599203</p>
-</section>
-
-<section id="dashboard" class="page" style="display:none">
-  <h2>لوحة التحكم (المشرف)</h2>
-  <div id="adminBox" class="admin-box" style="display:none">
-    <h3>أضف مشروع جديد</h3>
-    <input id="projTitle" placeholder="عنوان المشروع">
-    <textarea id="projDesc" placeholder="وصف المشروع"></textarea>
-    <input type="file" id="projImage" accept="image/*">
-    <button class="btn" id="addProjectBtn">نشر المشروع</button>
-    <p id="adminStatus" class="small"></p>
-
-    <hr>
     <h3>قائمة المشاريع</h3>
-    <div id="adminProjectsList"></div>
-  </div>
-  <div id="notAdminMsg" style="display:none">
-    <p>يجب تسجيل الدخول كمشرف لعرض لوحة التحكم.</p>
-  </div>
-</section>
+    <ul id="projectList"></ul>
+  </section>
 
-<div id="loginModal" class="modal" style="display:none">
-  <div class="sheet">
-    <button class="close-btn" onclick="closeLoginModal()">✖</button>
-    <h3>تسجيل الدخول (مشرف)</h3>
-    <input id="loginEmail" placeholder="البريد الإلكتروني">
-    <input id="loginPassword" placeholder="كلمة المرور" type="password">
-    <div style="display:flex;gap:8px;margin-top:8px">
-      <button class="btn" id="loginBtn">دخول</button>
-      <button class="btn ghost" onclick="openRegister()">إنشاء مستخدم</button>
-    </div>
-    <p id="loginStatus" class="small"></p>
-  </div>
-</div>
-
-<footer>
-  <p>© 2025 الحضري للبرمجيات</p>
-</footer>
-
-<script src="https://www.gstatic.com/firebasejs/10.14.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.14.0/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.14.0/firebase-database-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.14.0/firebase-storage-compat.js"></script>
-<script src="app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js"></script>
+  <script src="app.js"></script>
 
 </body>
 </html>
