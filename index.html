@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>الحضري للبرمجيات - Dashboard & Site</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>الحضري للبرمجيات</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -19,49 +18,40 @@
       <a href="#" onclick="showSection('dashboard')">لوحة التحكم</a>
     </nav>
     <div class="auth-area">
-      <button class="btn ghost" id="openLoginBtn" onclick="openLoginModal()">تسجيل الدخول</button>
-      <button class="btn" id="logoutBtn" style="display:none" onclick="signOutUser()">خروج</button>
+      <button class="btn ghost" onclick="openLoginModal()">تسجيل الدخول</button>
+      <button class="btn" onclick="signOutUser()">خروج</button>
     </div>
   </div>
 </header>
 
+<!-- Home Section -->
 <section id="home" class="page">
-  <div class="hero">
-    <div class="hero-left">
-      <h1>نحو حلول رقمية احترافية</h1>
-      <p>نصمّم ونطوّر مواقع وتطبيقات متكاملة تناسب احتياجات المؤسسات والشركات.</p>
-      <button class="btn" onclick="showSection('projects')">شاهد مشاريعنا</button>
-    </div>
-    <div class="hero-right">
-      <img src="https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&w=800&q=80" alt="Dev">
-    </div>
-  </div>
+  <h1>نحو حلول رقمية احترافية</h1>
+  <p>نصمّم ونطوّر مواقع وتطبيقات متكاملة للشركات والمؤسسات.</p>
 </section>
 
+<!-- Projects Section -->
 <section id="projects" class="page" style="display:none">
   <h2>أبرز مشاريعنا</h2>
-  <div id="projectsGrid" class="projects-grid"></div>
+  <div id="projectsGrid"></div>
 </section>
 
+<!-- Contact Section -->
 <section id="contact" class="page" style="display:none">
   <h2>تواصل معنا</h2>
-  <p>📧 <a href="mailto:babiker9991@gmail.com">babiker9991@gmail.com</a></p>
+  <p>📧 babiker9991@gmail.com</p>
   <p>📞 +249900599203</p>
 </section>
 
+<!-- Dashboard Section -->
 <section id="dashboard" class="page" style="display:none">
   <h2>لوحة التحكم (المشرف)</h2>
   <div id="adminBox" style="display:none">
-    <h3>أضف مشروع جديد</h3>
     <input id="projTitle" placeholder="عنوان المشروع">
     <textarea id="projDesc" placeholder="وصف المشروع"></textarea>
     <input type="file" id="projImage" accept="image/*">
-    <button class="btn" id="addProjectBtn">نشر المشروع</button>
-    <p id="adminStatus" class="small"></p>
-
-    <hr>
-    <h3>قائمة المشاريع (عرض سريع)</h3>
-    <div id="adminProjectsList"></div>
+    <button id="addProjectBtn">نشر المشروع</button>
+    <div id="adminStatus"></div>
   </div>
   <div id="notAdminMsg" style="display:none">
     <p>يجب تسجيل الدخول كمشرف لعرض لوحة التحكم.</p>
@@ -70,30 +60,12 @@
 
 <!-- Login Modal -->
 <div id="loginModal" class="modal" style="display:none">
-  <div class="sheet">
-    <button class="close-btn" onclick="closeLoginModal()">✖</button>
-    <h3>تسجيل الدخول (مشرف)</h3>
-    <input id="loginEmail" placeholder="البريد الإلكتروني">
-    <input id="loginPassword" placeholder="كلمة المرور" type="password">
-    <div style="display:flex;gap:8px;margin-top:8px">
-      <button class="btn" id="loginBtn">دخول</button>
-    </div>
-    <p id="loginStatus" class="small"></p>
-  </div>
+  <input id="loginEmail" placeholder="البريد الإلكتروني">
+  <input id="loginPassword" placeholder="كلمة المرور" type="password">
+  <button id="loginBtn">دخول</button>
+  <button onclick="closeLoginModal()">إلغاء</button>
 </div>
 
-<footer>
-  <p>© 2025 الحضري للبرمجيات</p>
-</footer>
-
-<!-- Firebase SDKs -->
-<script src="https://www.gstatic.com/firebasejs/10.14.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.14.0/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.14.0/firebase-database-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.14.0/firebase-storage-compat.js"></script>
-
-<!-- Config & App -->
-<script src="firebase-config.js"></script>
-<script src="app.js"></script>
+<script type="module" src="app.js"></script>
 </body>
 </html>
