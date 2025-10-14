@@ -1,13 +1,12 @@
 <!DOCTYPE html>
 <html lang="ar">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>لوحة إدارة المشاريع</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-
   <header>
     <h1>نظام إدارة المشاريع</h1>
     <nav>
@@ -18,8 +17,8 @@
 
   <section id="loginSection" class="section">
     <h2>تسجيل الدخول</h2>
-    <input type="email" id="email" placeholder="البريد الإلكتروني"><br>
-    <input type="password" id="password" placeholder="كلمة المرور"><br>
+    <input type="email" id="email" placeholder="البريد الإلكتروني" /><br />
+    <input type="password" id="password" placeholder="كلمة المرور" /><br />
     <button id="loginBtn">دخول</button>
     <p id="loginStatus"></p>
   </section>
@@ -27,18 +26,19 @@
   <section id="dashboardSection" class="section" style="display:none;">
     <h2>لوحة التحكم (المشرف)</h2>
     <div id="projectForm">
-      <input type="text" id="projectName" placeholder="اسم المشروع"><br>
-      <textarea id="projectDesc" placeholder="وصف المشروع"></textarea><br>
+      <input type="text" id="projectName" placeholder="اسم المشروع" /><br />
+      <textarea id="projectDesc" placeholder="وصف المشروع"></textarea><br />
       <button id="addProjectBtn">إضافة مشروع</button>
     </div>
     <h3>قائمة المشاريع</h3>
     <ul id="projectList"></ul>
   </section>
 
-  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js"></script>
-  <script src="app.js"></script>
+  <!-- مكتبات Firebase القديمة المتوافقة -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
+  <script src="app.js"></script>
 </body>
 </html>
