@@ -1,13 +1,9 @@
-body{font-family:"Cairo",sans-serif;margin:0;padding:0;background:#f2f5f8}
-header{background:#007bff;color:#fff;padding:15px;display:flex;align-items:center;justify-content:space-between}
-header .logo{font-weight:bold;font-size:20px}
-header nav a{color:#fff;margin:0 10px;text-decoration:none}
-header nav a:hover{text-decoration:underline}
-.auth button{margin-left:10px;padding:5px 10px}
-.page{padding:20px}
-#projectsGrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:15px}
-#projectsGrid .proj-card{background:#fff;padding:10px;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,0.15)}
-#projectsGrid img{width:100%;border-radius:8px}
-input,textarea{width:100%;padding:8px;margin:5px 0;border-radius:5px;border:1px solid #ccc}
-button{padding:8px 12px;border:none;border-radius:5px;background:#007bff;color:#fff;cursor:pointer}
-button:hover{background:#0056b3}
+body { font-family: Arial, sans-serif; margin:0; padding:0; background:#f0f4f8; }
+header { background:#007bff; color:#fff; padding:10px; display:flex; justify-content:space-between; align-items:center; }
+header a { color:#fff; margin:0 10px; text-decoration:none; }
+header .logo { font-weight:bold; }
+.page { padding:20px; }
+#projectsGrid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:15px; }
+.proj-card { background:#fff; padding:10px; border-radius:6px; box-shadow:0 2px 5px rgba(0,0,0,0.1); }
+.proj-card img { width:100%; border-radius:6px; }
+footer { background:#007bff; color:#fff; text-align:center; padding:10px; position:fixed; width:100%; bottom:0; }
