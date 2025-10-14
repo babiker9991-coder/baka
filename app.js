@@ -1,4 +1,4 @@
-// تهيئة Firebase
+// إعداد Firebase
 const firebaseConfig = {
   apiKey: "AIzaSyDxoEJLaGcEy7s1P2nE2_bDniS71ldI31Q",
   authDomain: "alhadari-net.firebaseapp.com",
@@ -10,85 +10,74 @@ const firebaseConfig = {
   measurementId: "G-XLQB1M9FHQ"
 };
 
-// ربط المكتبات
+// تهيئة الاتصال
 firebase.initializeApp(firebaseConfig);
+
+// المتغيرات العامة
 const auth = firebase.auth();
 const db = firebase.database();
-
-// بريد المشرف الوحيد المسموح له بالدخول
-const adminEmail = "babiker@example.com";
-
-// عناصر HTML
-const loginSection = document.getElementById("loginSection");
-const adminPanel = document.getElementById("adminPanel");
-const loginBtn = document.getElementById("loginBtn");
-const logoutBtn = document.getElementById("logoutBtn");
-const loginMessage = document.getElementById("loginMessage");
+const adminEmail = "babiker@gmail.com"; // المشرف الوحيد
 
 // تسجيل الدخول
-loginBtn.addEventListener("click", async () => {
+document.getElementById("loginBtn").addEventListener("click", () => {
   const email = document.getElementById("email").value.trim();
   const password = document.getElementById("password").value.trim();
 
-  try {
-    const userCredential = await auth.signInWithEmailAndPassword(email, password);
-    const user = userCredential.user;
-
-    if (user.email === adminEmail) {
-      loginSection.style.display = "none";
-      adminPanel.style.display = "block";
-      loadProjects();
-    } else {
-      loginMessage.textContent = "فقط المشرف يمكنه الدخول إلى لوحة التحكم.";
-      auth.signOut();
-    }
-  } catch (error) {
-    loginMessage.textContent = "خطأ في تسجيل الدخول: " + error.message;
-  }
+  auth.signInWithEmailAndPassword(email, password)
+    .then(userCredential => {
+      const user = userCredential.user;
+      if (user.email === adminEmail) {
+        document.getElementById("loginSection").style.display = "none";
+        document.getElementById("adminPanel").style.display = "block";
+        loadProjects();
+      } else {
+        document.getElementById("loginMessage").innerText = "فقط المشرف يمكنه الدخول!";
+        auth.signOut();
+      }
+    })
+    .catch(error => {
+      document.getElementById("loginMessage").innerText = error.message;
+    });
 });
 
 // تسجيل الخروج
-logoutBtn.addEventListener("click", () => {
+document.getElementById("logoutBtn").addEventListener("click", () => {
   auth.signOut();
-  adminPanel.style.display = "none";
-  loginSection.style.display = "block";
+  document.getElementById("adminPanel").style.display = "none";
+  document.getElementById("loginSection").style.display = "block";
 });
 
-// إضافة مشروع جديد
+// إضافة مشروع
 document.getElementById("addProjectBtn").addEventListener("click", () => {
   const name = document.getElementById("projectName").value.trim();
   const desc = document.getElementById("projectDesc").value.trim();
 
-  if (!name || !desc) {
-    alert("الرجاء إدخال جميع البيانات");
-    return;
+  if (name && desc) {
+    const newRef = db.ref("projects").push();
+    newRef.set({
+      name,
+      description: desc,
+      date: new Date().toLocaleString()
+    });
+    document.getElementById("projectName").value = "";
+    document.getElementById("projectDesc").value = "";
+    loadProjects();
+  } else {
+    alert("أدخل جميع البيانات");
   }
-
-  const newRef = db.ref("projects").push();
-  newRef.set({
-    name: name,
-    description: desc,
-    date: new Date().toLocaleString()
-  });
-
-  document.getElementById("projectName").value = "";
-  document.getElementById("projectDesc").value = "";
-  alert("تمت إضافة المشروع بنجاح");
-  loadProjects();
 });
 
-// تحميل المشاريع من القاعدة
+// تحميل المشاريع
 function loadProjects() {
-  const projectList = document.getElementById("projectList");
-  projectList.innerHTML = "";
-
-  db.ref("projects").on("value", (snapshot) => {
-    projectList.innerHTML = "";
-    snapshot.forEach((child) => {
+  const list = document.getElementById("projectList");
+  list.innerHTML = "";
+  db.ref("projects").on("value", snapshot => {
+    list.innerHTML = "";
+    snapshot.forEach(child => {
       const data = child.val();
       const li = document.createElement("li");
       li.textContent = `${data.name} - ${data.description} (${data.date})`;
-      projectList.appendChild(li);
+      list.appendChild(li);
     });
   });
 }
