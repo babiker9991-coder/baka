@@ -17,39 +17,35 @@
     <a href="#" onclick="showSection('contact')">تواصل</a>
     <a href="#" onclick="showSection('dashboard')">لوحة التحكم</a>
   </nav>
-  <div id="authArea">
-    <button onclick="openLoginModal()" id="loginBtnHeader">تسجيل الدخول</button>
-    <button onclick="signOutUser()" id="logoutBtn" style="display:none">خروج</button>
+  <div class="auth">
+    <button id="openLoginBtn" onclick="openLoginModal()">تسجيل الدخول</button>
+    <button id="logoutBtn" style="display:none" onclick="signOutUser()">خروج</button>
   </div>
 </header>
 
-<!-- Home -->
 <section id="home" class="page">
-  <h1>مرحبا بكم في الحضري للبرمجيات</h1>
-  <p>تصميم وتطوير المواقع والتطبيقات باحترافية.</p>
+  <h1>نحو حلول رقمية احترافية</h1>
+  <p>نصمّم ونطوّر مواقع وتطبيقات متكاملة تناسب احتياجات المؤسسات والشركات.</p>
 </section>
 
-<!-- Projects -->
 <section id="projects" class="page" style="display:none">
-  <h2>مشاريعنا</h2>
-  <div id="projectsGrid"></div>
+  <h2>أبرز مشاريعنا</h2>
+  <div id="projectsGrid" class="projects-grid"></div>
 </section>
 
-<!-- Contact -->
 <section id="contact" class="page" style="display:none">
   <h2>تواصل معنا</h2>
   <p>📧 <a href="mailto:babiker9991@gmail.com">babiker9991@gmail.com</a></p>
   <p>📞 +249900599203</p>
 </section>
 
-<!-- Dashboard -->
 <section id="dashboard" class="page" style="display:none">
-  <h2>لوحة تحكم المشرف</h2>
+  <h2>لوحة التحكم</h2>
   <div id="adminBox" style="display:none">
-    <input type="text" id="projTitle" placeholder="عنوان المشروع">
+    <input id="projTitle" placeholder="عنوان المشروع">
     <textarea id="projDesc" placeholder="وصف المشروع"></textarea>
     <input type="file" id="projImage" accept="image/*">
-    <button onclick="addProject()">نشر المشروع</button>
+    <button id="addProjectBtn">نشر المشروع</button>
     <p id="adminStatus"></p>
   </div>
   <div id="notAdminMsg" style="display:none">
@@ -58,13 +54,13 @@
 </section>
 
 <!-- Login Modal -->
-<div id="loginModal" style="display:none">
+<div id="loginModal" class="modal" style="display:none">
   <div class="modal-content">
-    <span onclick="closeLoginModal()" class="close">&times;</span>
+    <button onclick="closeLoginModal()">✖</button>
     <h3>تسجيل الدخول</h3>
-    <input type="email" id="loginEmail" placeholder="البريد الإلكتروني">
-    <input type="password" id="loginPassword" placeholder="كلمة المرور">
-    <button onclick="loginUser()">دخول</button>
+    <input id="loginEmail" placeholder="البريد الإلكتروني">
+    <input id="loginPassword" type="password" placeholder="كلمة المرور">
+    <button id="loginBtn">دخول</button>
     <p id="loginStatus"></p>
   </div>
 </div>
@@ -73,14 +69,12 @@
   <p>© 2025 الحضري للبرمجيات</p>
 </footer>
 
-<!-- Firebase SDKs -->
+<!-- Firebase compat SDKs -->
 <script src="https://www.gstatic.com/firebasejs/10.14.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.0/firebase-database-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.0/firebase-storage-compat.js"></script>
 
-<!-- App JS -->
 <script src="app.js"></script>
-
 </body>
 </html>
