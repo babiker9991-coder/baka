@@ -17,10 +17,7 @@ function loginUser(){
   if(!email || !pw){ status.textContent='املأ البريد وكلمة المرور'; return; }
 
   auth.signInWithEmailAndPassword(email,pw)
-    .then(userCredential=>{
-      closeLoginModal();
-      status.textContent='';
-    })
+    .then(()=>closeLoginModal())
     .catch(err=>{
       console.error(err);
       status.textContent='خطأ: '+err.message;
@@ -33,19 +30,27 @@ function signOutUser(){
 
 // ====== مراقبة حالة المصادقة ======
 auth.onAuthStateChanged(user=>{
+  const loginBtnEl = document.getElementById('loginBtn');
+  const logoutBtnEl = document.getElementById('logoutBtn');
+  const adminBox = document.getElementById('adminBox');
+  const notAdminMsg = document.getElementById('notAdminMsg');
+
   if(user){
-    document.getElementById('loginBtn').style.display='none';
-    document.getElementById('logoutBtn').style.display='inline-block';
+    loginBtnEl.style.display='none';
+    logoutBtnEl.style.display='inline-block';
     if(user.uid===ADMIN_UID){
-      document.getElementById('adminBox').style.display='block';
-      document.getElementById('notAdminMsg').style.display='none';
+      adminBox.style.display='block';
+      notAdminMsg.style.display='none';
       showSection('dashboard');
+    } else {
+      adminBox.style.display='none';
+      notAdminMsg.style.display='block';
     }
   } else {
-    document.getElementById('loginBtn').style.display='inline-block';
-    document.getElementById('logoutBtn').style.display='none';
-    document.getElementById('adminBox').style.display='none';
-    document.getElementById('notAdminMsg').style.display='none';
+    loginBtnEl.style.display='inline-block';
+    logoutBtnEl.style.display='none';
+    adminBox.style.display='none';
+    notAdminMsg.style.display='none';
   }
 });
 
@@ -57,8 +62,8 @@ function addProject(){
   const status = document.getElementById('adminStatus');
   status.textContent='';
 
-  if(!title||!desc){ status.textContent='املأ العنوان والوصف'; return; }
-  if(!auth.currentUser||auth.currentUser.uid!==ADMIN_UID){ status.textContent='أنت لست مشرفاً'; return; }
+  if(!title || !desc){ status.textContent='املأ العنوان والوصف'; return; }
+  if(!auth.currentUser || auth.currentUser.uid !== ADMIN_UID){ status.textContent='أنت لست مشرفاً'; return; }
 
   const newRef = db.ref('projects').push();
   const id = newRef.key;
@@ -68,21 +73,40 @@ function addProject(){
     storageRef.put(file)
       .then(()=>storageRef.getDownloadURL())
       .then(url=>newRef.set({title,desc,image:url,createdAt:Date.now()}))
-      .then(()=>{ status.textContent='✅ تم نشر المشروع'; })
+      .then(()=>{ status.textContent='✅ تم نشر المشروع'; document.getElementById('projTitle').value=''; document.getElementById('projDesc').value=''; document.getElementById('projImage').value=''; })
       .catch(err=>{ console.error(err); status.textContent='❌ '+err.message; });
   } else {
     newRef.set({title,desc,image:'',createdAt:Date.now()})
-      .then(()=>{ status.textContent='✅ تم نشر المشروع'; })
+      .then(()=>{ status.textContent='✅ تم نشر المشروع'; document.getElementById('projTitle').value=''; document.getElementById('projDesc').value=''; })
       .catch(err=>{ console.error(err); status.textContent='❌ '+err.message; });
   }
 }
 
 // ====== عرض المشاريع ======
-function renderProjects(data){
+function listenProjects(){
+  db.ref('projects').orderByChild('createdAt').on('value', snapshot=>{
+    const data = snapshot.val() || {};
+    const arr = Object.keys(data).map(k=>({id:k,...data[k]})).sort((a,b)=>b.createdAt - a.createdAt);
+    renderProjects(arr);
+  });
+}
+
+function renderProjects(arr){
   const grid = document.getElementById('projectsGrid');
   grid.innerHTML='';
-  data.forEach(p=>{
+  if(arr.length===0){ grid.innerHTML='<p>لا توجد مشاريع حتى الآن</p>'; return; }
+  arr.forEach(p=>{
     const div = document.createElement('div');
     div.className='proj-card';
     div.innerHTML=`
-      ${p.image?`<img src="${p
+      ${p.image?`<img src="${p.image}" alt="${p.title}">`:""}
+      <h4>${p.title}</h4>
+      <p>${p.desc}</p>
+    `;
+    grid.appendChild(div);
+  });
+}
+
+// ====== بدء الاستماع ======
+listenProjects();
+showSection('home');
