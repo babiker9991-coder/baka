@@ -1,4 +1,4 @@
-// ✅ إعداد Firebase (الربط مع مشروعك)
+// تهيئة Firebase
 const firebaseConfig = {
   apiKey: "AIzaSyDxoEJLaGcEy7s1P2nE2_bDniS71ldI31Q",
   authDomain: "alhadari-net.firebaseapp.com",
@@ -10,75 +10,85 @@ const firebaseConfig = {
   measurementId: "G-XLQB1M9FHQ"
 };
 
+// ربط المكتبات
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db = firebase.database();
 
-// ✅ التنقل بين الأقسام
-function showSection(id) {
-  document.querySelectorAll(".section").forEach(s => s.style.display = "none");
-  document.getElementById(id).style.display = "block";
-}
+// بريد المشرف الوحيد المسموح له بالدخول
+const adminEmail = "babiker@example.com";
 
-// ✅ تسجيل الدخول
-document.getElementById("loginBtn").addEventListener("click", async () => {
+// عناصر HTML
+const loginSection = document.getElementById("loginSection");
+const adminPanel = document.getElementById("adminPanel");
+const loginBtn = document.getElementById("loginBtn");
+const logoutBtn = document.getElementById("logoutBtn");
+const loginMessage = document.getElementById("loginMessage");
+
+// تسجيل الدخول
+loginBtn.addEventListener("click", async () => {
   const email = document.getElementById("email").value.trim();
   const password = document.getElementById("password").value.trim();
-  const status = document.getElementById("loginStatus");
 
   try {
-    const userCred = await auth.signInWithEmailAndPassword(email, password);
-    const uid = userCred.user.uid;
+    const userCredential = await auth.signInWithEmailAndPassword(email, password);
+    const user = userCredential.user;
 
-    // تحقق من أنه المشرف
-    if (uid === "k20NLjvISFhaUL7roFU9diedfi32") {
-      status.textContent = "تم تسجيل الدخول كمشرف ✅";
-      showSection("dashboardSection");
+    if (user.email === adminEmail) {
+      loginSection.style.display = "none";
+      adminPanel.style.display = "block";
       loadProjects();
     } else {
-      status.textContent = "ليس لديك صلاحيات المشرف ❌";
+      loginMessage.textContent = "فقط المشرف يمكنه الدخول إلى لوحة التحكم.";
+      auth.signOut();
     }
-
   } catch (error) {
-    status.textContent = "خطأ في تسجيل الدخول: " + error.message;
+    loginMessage.textContent = "خطأ في تسجيل الدخول: " + error.message;
   }
 });
 
-// ✅ إضافة مشروع جديد
-document.getElementById("addProjectBtn").addEventListener("click", async () => {
+// تسجيل الخروج
+logoutBtn.addEventListener("click", () => {
+  auth.signOut();
+  adminPanel.style.display = "none";
+  loginSection.style.display = "block";
+});
+
+// إضافة مشروع جديد
+document.getElementById("addProjectBtn").addEventListener("click", () => {
   const name = document.getElementById("projectName").value.trim();
   const desc = document.getElementById("projectDesc").value.trim();
 
   if (!name || !desc) {
-    alert("يرجى إدخال اسم ووصف المشروع");
+    alert("الرجاء إدخال جميع البيانات");
     return;
   }
 
-  try {
-    const newRef = db.ref("projects").push();
-    await newRef.set({
-      name: name,
-      description: desc,
-      date: new Date().toLocaleString()
-    });
-    alert("تمت إضافة المشروع بنجاح ✅");
-    loadProjects();
-  } catch (err) {
-    alert("حدث خطأ أثناء الإضافة ❌ " + err.message);
-  }
+  const newRef = db.ref("projects").push();
+  newRef.set({
+    name: name,
+    description: desc,
+    date: new Date().toLocaleString()
+  });
+
+  document.getElementById("projectName").value = "";
+  document.getElementById("projectDesc").value = "";
+  alert("تمت إضافة المشروع بنجاح");
+  loadProjects();
 });
 
-// ✅ تحميل المشاريع
+// تحميل المشاريع من القاعدة
 function loadProjects() {
-  const list = document.getElementById("projectList");
-  list.innerHTML = "";
+  const projectList = document.getElementById("projectList");
+  projectList.innerHTML = "";
 
-  db.ref("projects").on("value", snapshot => {
-    list.innerHTML = "";
-    snapshot.forEach(child => {
+  db.ref("projects").on("value", (snapshot) => {
+    projectList.innerHTML = "";
+    snapshot.forEach((child) => {
+      const data = child.val();
       const li = document.createElement("li");
-      li.textContent = `${child.val().name} - ${child.val().description}`;
-      list.appendChild(li);
+      li.textContent = `${data.name} - ${data.description} (${data.date})`;
+      projectList.appendChild(li);
     });
   });
 }
