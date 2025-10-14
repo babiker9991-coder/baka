@@ -1,171 +1,0 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>الحضري نت — نسخة رياضية</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-
-<header class="site-header">
-  <div class="header-inner">
-    <div class="logo" onclick="showSection('home')">الحضري نت</div>
-    <div class="searchbar">
-      <input id="searchInput" placeholder="ابحث عن فريق، خبر، مباراة..." />
-      <button class="btn" onclick="doSearch()">بحث</button>
-    </div>
-    <div class="header-actions">
-      <button class="btn" onclick="openAdminPanel()">لوحة المشرف</button>
-      <button class="btn ghost" onclick="openNewPostModal()">+ نشر</button>
-    </div>
-  </div>
-</header>
-
-<nav class="nav">
-  <div class="nav-inner">
-    <a href="#" onclick="showSection('home')">الرئيسية</a>
-    <a href="#" onclick="showSection('news')">أخبار</a>
-    <a href="#" onclick="showSection('matches')">مباريات</a>
-    <a href="#" onclick="showSection('standings')">ترتيب</a>
-    <a href="#" onclick="showSection('teams')">الفرق</a>
-    <a href="#" onclick="showSection('forum')">المنتدى</a>
-  </div>
-</nav>
-
-<!-- container -->
-<div class="container">
-
-  <main class="main-feed">
-
-    <!-- ticker -->
-    <div class="ticker widget" id="liveTicker"><div class="live-title">مباشر:</div></div>
-
-    <!-- hero -->
-    <section id="homeSection">
-      <div class="hero card" id="heroCard">
-        <div class="hero-text">
-          <h2 id="heroTitle">أحدث الأخبار</h2>
-          <p id="heroExcerpt">تابع آخر الأخبار الرياضية — اضغط على الخبر لعرض التفاصيل.</p>
-          <div class="controls"><button class="btn" onclick="openLatest()">اقرأ الآن</button><button class="btn ghost" onclick="refreshAll()">تحديث</button></div>
-        </div>
-        <img id="heroImage" src="https://via.placeholder.com/420x260?text=Sport" alt="hero">
-      </div>
-
-      <div id="newsGrid" class="grid-news"></div>
-    </section>
-
-    <!-- news list -->
-    <section id="newsSection" style="display:none">
-      <div class="card">
-        <h3>جميع الأخبار</h3>
-        <div id="newsListAll"></div>
-      </div>
-    </section>
-
-    <!-- matches -->
-    <section id="matchesSection" style="display:none">
-      <div class="card">
-        <h3>مباريات اليوم</h3>
-        <div id="matchesList"></div>
-      </div>
-    </section>
-
-    <!-- standings -->
-    <section id="standingsSection" style="display:none">
-      <div class="card">
-        <h3>ترتيب الفرق</h3>
-        <div id="standingsList"></div>
-      </div>
-    </section>
-
-    <!-- teams -->
-    <section id="teamsSection" style="display:none">
-      <div class="card">
-        <h3>الفرق</h3>
-        <div id="teamsList"></div>
-      </div>
-    </section>
-
-    <!-- forum -->
-    <section id="forumSection" style="display:none">
-      <div class="card">
-        <h3>المنتدى</h3>
-        <div id="forumList"></div>
-      </div>
-    </section>
-
-  </main>
-
-  <aside class="sidebar">
-    <div class="widget">
-      <h4>أخبار عاجلة</h4>
-      <ul id="hotList" class="hot-list"></ul>
-    </div>
-
-    <div class="widget admin-panel" id="adminBox" style="display:none;">
-      <h4>لوحة المشرف</h4>
-      <input id="adminEmail" placeholder="بريد المشرف (اختياري للـ Auth)">
-      <input id="adminPass" placeholder="كلمة المرور (لوحة سريعة)">
-      <div style="display:flex;gap:8px">
-        <button class="btn" onclick="adminLogin()">دخول</button>
-        <button class="btn ghost" onclick="adminLogout()">خروج</button>
-      </div>
-      <p class="small">للدخول السريع أدخل كلمة المرور: <b>221133</b> (يمكن تغييرها في app.js)</p>
-    </div>
-
-    <div class="widget">
-      <h4>مساحة إعلان</h4>
-      <div class="ad-box">إعلان</div>
-    </div>
-
-    <div class="widget">
-      <h4>تواصل</h4>
-      <p class="small">📧 babiker9991@gmail.com<br/>📞 +249900599203</p>
-    </div>
-  </aside>
-
-</div>
-
-<!-- post detail modal -->
-<div class="modal" id="postModal">
-  <div class="sheet">
-    <button class="close-btn" onclick="closePostModal()">✖</button>
-    <div id="postFull"></div>
-    <div id="postComments" class="comments"></div>
-    <div class="comment-form">
-      <input id="commentName" placeholder="اسمك (اختياري)">
-      <textarea id="commentText" placeholder="اكتب تعليقك..."></textarea>
-      <button class="btn" onclick="submitComment()">إرسال تعليق</button>
-    </div>
-  </div>
-</div>
-
-<!-- new post modal -->
-<div class="modal" id="newPostModal">
-  <div class="sheet">
-    <button class="close-btn" onclick="closeNewPostModal()">✖</button>
-    <h3>نشر خبر/مقال</h3>
-    <div class="admin-panel">
-      <input id="npTitle" placeholder="العنوان">
-      <input id="npExcerpt" placeholder="مقتطف قصير">
-      <textarea id="npContent" placeholder="نص الخبر"></textarea>
-      <input type="file" id="npImage">
-      <select id="npCat"><option value="news">أخبار</option><option value="articles">مقالات</option></select>
-      <div style="display:flex;gap:8px">
-        <button class="btn" onclick="publishPost()">نشر</button>
-        <button class="btn ghost" onclick="closeNewPostModal()">إلغاء</button>
-      </div>
-      <p id="npStatus" class="small"></p>
-    </div>
-  </div>
-</div>
-
-<!-- scripts -->
-<script src="https://www.gstatic.com/firebasejs/10.14.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.14.0/firebase-database-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.14.0/firebase-storage-compat.js"></script>
-<script src="app.js"></script>
-</body>
-</html>
