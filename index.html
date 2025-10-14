@@ -3,87 +3,84 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>الحضري للبرمجيات - مشاريعنا</title>
+  <title>الحضري للبرمجيات</title>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="portfolio.css">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header class="header">
-    <div class="container">
-      <h1 class="logo">الحضري للبرمجيات</h1>
-      <nav>
-        <a href="#home">الرئيسية</a>
-        <a href="#services">خدماتنا</a>
-        <a href="#projects">مشاريعنا</a>
-        <a href="#contact">تواصل معنا</a>
-      </nav>
+<header>
+  <div class="container header-container">
+    <div class="logo">💻 الحضري للبرمجيات</div>
+    <nav>
+      <a href="#home" onclick="showSection('home')">الرئيسية</a>
+      <a href="#projects" onclick="showSection('projects')">مشاريعنا</a>
+      <a href="#contact" onclick="showSection('contact')">تواصل معنا</a>
+      <a href="#dashboard" onclick="showSection('dashboard')">لوحة التحكم</a>
+    </nav>
+    <div class="auth-area">
+      <button id="openLoginBtn" class="btn" onclick="openLoginModal()">تسجيل الدخول</button>
+      <button id="logoutBtn" class="btn" style="display:none" onclick="signOutUser()">خروج</button>
     </div>
-  </header>
+  </div>
+</header>
 
-  <section id="home" class="section home-section">
-    <div class="container">
-      <h2>نحو حلول برمجية مبتكرة</h2>
-      <p>نصمم ونطور تطبيقات ومواقع إلكترونية احترافية تلبي تطلعاتك</p>
-      <button class="btn primary">اعرف أكثر</button>
-    </div>
-  </section>
+<!-- Sections -->
+<section id="home" class="page">
+  <div class="hero">
+    <h1>نحو حلول رقمية احترافية</h1>
+    <p>نصمّم ونطوّر مواقع وتطبيقات متكاملة تناسب احتياجات المؤسسات والشركات.</p>
+  </div>
+</section>
 
-  <section id="services" class="section services-section">
-    <div class="container">
-      <h2>خدماتنا</h2>
-      <div class="services-grid">
-        <div class="service-card">
-          <h3>تصميم واجهات مستخدم</h3>
-          <p>واجهات استخدام حديثة وسهلة التفاعل</p>
-        </div>
-        <div class="service-card">
-          <h3>تطوير مواقع إلكترونية</h3>
-          <p>مواقع سريعة وآمنة ومتجاوبة مع جميع الأجهزة</p>
-        </div>
-        <div class="service-card">
-          <h3>تطبيقات جوال</h3>
-          <p>تطبيقات مخصصة لأنظمة Android و iOS</p>
-        </div>
-      </div>
-    </div>
-  </section>
+<section id="projects" class="page" style="display:none">
+  <h2>أبرز مشاريعنا</h2>
+  <div id="projectsGrid" class="projects-grid"></div>
+</section>
 
-  <section id="projects" class="section projects-section">
-    <div class="container">
-      <h2>مشاريعنا</h2>
-      <div class="projects-grid">
-        <div class="project-card">
-          <img src="https://via.placeholder.com/300x200.png?text=Project+1" alt="Project 1">
-          <h4>موقع تجارة إلكترونية</h4>
-        </div>
-        <div class="project-card">
-          <img src="https://via.placeholder.com/300x200.png?text=Project+2" alt="Project 2">
-          <h4>تطبيق توصيل طلبات</h4>
-        </div>
-        <div class="project-card">
-          <img src="https://via.placeholder.com/300x200.png?text=Project+3" alt="Project 3">
-          <h4>منصة تعليمية</h4>
-        </div>
-        <div class="project-card">
-          <img src="https://via.placeholder.com/300x200.png?text=Project+4" alt="Project 4">
-          <h4>لوحة تحكم للإدارة</h4>
-        </div>
-      </div>
-    </div>
-  </section>
+<section id="contact" class="page" style="display:none">
+  <h2>تواصل معنا</h2>
+  <p>📧 babiker9991@gmail.com</p>
+  <p>📞 +249900599203</p>
+</section>
 
-  <section id="contact" class="section contact-section">
-    <div class="container">
-      <h2>تواصل معنا</h2>
-      <p>📧 البريد الإلكتروني: babiker9991@gmail.com</p>
-      <p>📞 الهاتف: +249900599203</p>
-    </div>
-  </section>
+<section id="dashboard" class="page" style="display:none">
+  <h2>لوحة التحكم (المشرف)</h2>
+  <div id="adminBox" style="display:none">
+    <input id="projTitle" placeholder="عنوان المشروع">
+    <textarea id="projDesc" placeholder="وصف المشروع"></textarea>
+    <input type="file" id="projImage">
+    <button id="addProjectBtn" class="btn">نشر المشروع</button>
+    <div id="adminStatus"></div>
+    <h3>المشاريع الحالية</h3>
+    <div id="adminProjectsList"></div>
+  </div>
+  <div id="notAdminMsg" style="display:none">
+    <p>يجب تسجيل الدخول كمشرف لعرض لوحة التحكم.</p>
+  </div>
+</section>
 
-  <footer class="footer">
-    <div class="container">
-      <p>© 2025 الحضري للبرمجيات</p>
-    </div>
-  </footer>
+<!-- Login Modal -->
+<div id="loginModal" class="modal" style="display:none">
+  <div class="modal-content">
+    <span class="close" onclick="closeLoginModal()">✖</span>
+    <h3>تسجيل الدخول</h3>
+    <input id="loginEmail" placeholder="البريد الإلكتروني">
+    <input id="loginPassword" placeholder="كلمة المرور" type="password">
+    <button id="loginBtn" class="btn">دخول</button>
+    <p id="loginStatus"></p>
+  </div>
+</div>
+
+<footer>
+  <p>© 2025 الحضري للبرمجيات</p>
+</footer>
+
+<!-- Firebase Scripts (Compat) -->
+<script src="https://www.gstatic.com/firebasejs/10.14.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.0/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.0/firebase-storage-compat.js"></script>
+
+<script src="app.js"></script>
 </body>
 </html>
