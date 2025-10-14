@@ -1,46 +1,33 @@
 body {
-  font-family: "Tajawal", sans-serif;
-  background-color: #f0f4ff;
-  color: #222;
+  font-family: "Cairo", sans-serif;
   text-align: center;
-  padding: 20px;
-}
-
-header {
-  background-color: #007bff;
-  color: white;
-  padding: 10px;
-  border-radius: 12px;
-}
-
-nav a {
-  color: white;
-  margin: 0 10px;
-  text-decoration: none;
-  font-weight: bold;
+  background: #f9f9f9;
+  direction: rtl;
 }
 
 input, textarea {
-  width: 80%;
+  display: block;
+  margin: 10px auto;
   padding: 10px;
-  margin: 5px 0;
+  width: 80%;
+  border-radius: 6px;
   border: 1px solid #ccc;
-  border-radius: 8px;
 }
 
 button {
   padding: 10px 20px;
-  background-color: #007bff;
+  background: #2196f3;
   color: white;
   border: none;
-  border-radius: 8px;
+  border-radius: 6px;
   cursor: pointer;
 }
 
 button:hover {
-  background-color: #0056b3;
+  background: #1976d2;
 }
 
-.section {
-  margin-top: 20px;
+#projectList {
+  list-style: none;
+  padding: 0;
 }
