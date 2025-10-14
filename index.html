@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>الحضري للبرمجيات</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <div class="logo">💻 الحضري للبرمجيات</div>
+  <nav>
+    <a href="#" onclick="showSection('home')">الرئيسية</a>
+    <a href="#" onclick="showSection('projects')">مشاريعنا</a>
+    <a href="#" onclick="showSection('dashboard')">لوحة التحكم</a>
+    <a href="#" onclick="showSection('contact')">تواصل</a>
+  </nav>
+</header>
+
+<div class="container">
+
+  <!-- الرئيسية -->
+  <section id="home">
+    <div class="hero">
+      <div class="hero-left">
+        <h1>نحو حلول رقمية احترافية</h1>
+        <p>نصمّم ونطوّر مواقع وتطبيقات متكاملة تناسب احتياجات المؤسسات والشركات.</p>
+        <button onclick="showSection('projects')">شاهد مشاريعنا</button>
+      </div>
+      <div class="hero-right">
+        <img src="https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&w=800&q=80" alt="Dev">
+      </div>
+    </div>
+  </section>
+
+  <!-- المشاريع -->
+  <section id="projects" style="display:none">
+    <h2>أبرز مشاريعنا</h2>
+    <div id="projectsGrid" class="projects-grid"></div>
+  </section>
+
+  <!-- لوحة التحكم -->
+  <section id="dashboard" style="display:none">
+    <h2>لوحة التحكم (المشرف)</h2>
+    <div id="adminBox" style="display:none">
+      <input type="text" id="projTitle" placeholder="عنوان المشروع">
+      <textarea id="projDesc" placeholder="وصف المشروع"></textarea>
+      <input type="file" id="projImage" accept="image/*">
+      <button onclick="addProject()">نشر المشروع</button>
+      <p id="status"></p>
+    </div>
+
+    <div id="loginBox">
+      <input type="email" id="loginEmail" placeholder="البريد الإلكتروني">
+      <input type="password" id="loginPassword" placeholder="كلمة المرور">
+      <button onclick="login()">تسجيل الدخول</button>
+      <p id="loginStatus"></p>
+    </div>
+  </section>
+
+  <!-- تواصل -->
+  <section id="contact" style="display:none">
+    <h2>تواصل معنا</h2>
+    <p>📧 <a href="mailto:babiker9991@gmail.com">babiker9991@gmail.com</a></p>
+    <p>📞 +249900599203</p>
+  </section>
+
+</div>
+
+<footer>
+  <p>© 2025 الحضري للبرمجيات</p>
+</footer>
+
+<script src="https://www.gstatic.com/firebasejs/10.14.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.0/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.0/firebase-storage-compat.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
