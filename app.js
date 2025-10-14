@@ -1,24 +1,25 @@
-// Firebase config
-const firebaseConfig 
-= {
+// ===== Firebase config =====
+const firebaseConfig = {
   apiKey: "AIzaSyDxoEJLaGcEy7s1P2nE2_bDniS71ldI31Q",
   authDomain: "alhadari-net.firebaseapp.com",
   databaseURL: "https://alhadari-net-default-rtdb.firebaseio.com",
- معرف المشروع: "الحضري نت"،
- تخزين الجرافة: "alhadari-net.firebasestorage.app",
- رسائل الإرسال: "465757130283",
- معرف التطبيق: "1:465757130283:web:10128c19bef6171e5e246e",
- measurementمعرف: "G-XLQB1M9FHQ"};appId: "ضع_APP_ID_هنا"
+  projectId: "alhadari-net",
+  storageBucket: "alhadari-net.firebasestorage.app",
+  messagingSenderId: "465757130283",
+  appId: "1:465757130283:web:10128c19bef6171e5e246e",
+  measurementId: "G-XLQB1M9FHQ"
 };
+
+// Initialize Firebase (compat)
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db = firebase.database();
 const storage = firebase.storage();
 
-// Admin UID
-const ADMIN_UID = "ضع_ADMIN_UID_هنا";
+// Admin UID (ضع UID المشرف هنا بعد إنشاء الحساب)
+const ADMIN_UID = "ضع_UID_هنا";
 
-// DOM Elements
+// ===== DOM Elements =====
 const projectsGrid = document.getElementById('projectsGrid');
 const adminBox = document.getElementById('adminBox');
 const notAdminMsg = document.getElementById('notAdminMsg');
@@ -29,14 +30,21 @@ const loginBtn = document.getElementById('loginBtn');
 const openLoginBtn = document.getElementById('openLoginBtn');
 const logoutBtn = document.getElementById('logoutBtn');
 
+// ===== Functions =====
 function showSection(id){
-  document.querySelectorAll('.page').forEach(p=>p.style.display='none');
+  document.querySelectorAll('.page').forEach(p => p.style.display='none');
   const el = document.getElementById(id);
   if(el) el.style.display='block';
 }
+
 function openLoginModal(){ loginModal.style.display='flex'; }
 function closeLoginModal(){ loginModal.style.display='none'; }
 
+function signOutUser(){
+  auth.signOut().then(()=>{ alert('تم الخروج'); });
+}
+
+// ===== Login =====
 loginBtn.addEventListener('click', ()=>{
   const email = document.getElementById('loginEmail').value.trim();
   const pw = document.getElementById('loginPassword').value.trim();
@@ -48,18 +56,14 @@ loginBtn.addEventListener('click', ()=>{
     .catch(e=>{ status.textContent='خطأ: '+e.message; });
 });
 
-function signOutUser(){
-  auth.signOut().then(()=>{ alert('تم الخروج'); });
-}
-
-// Auth state
+// ===== Auth state =====
 auth.onAuthStateChanged(user=>{
   if(user){
     openLoginBtn.style.display='none';
     logoutBtn.style.display='inline-block';
     if(user.uid===ADMIN_UID){ adminBox.style.display='block'; notAdminMsg.style.display='none'; }
     else { adminBox.style.display='none'; notAdminMsg.style.display='block'; }
-  }else{
+  } else {
     openLoginBtn.style.display='inline-block';
     logoutBtn.style.display='none';
     adminBox.style.display='none';
@@ -67,24 +71,51 @@ auth.onAuthStateChanged(user=>{
   }
 });
 
-// Add project
+// ===== Add project =====
 document.getElementById('addProjectBtn').addEventListener('click', async ()=>{
   const title = document.getElementById('projTitle').value.trim();
   const desc = document.getElementById('projDesc').value.trim();
   const file = document.getElementById('projImage').files[0];
   adminStatus.textContent = '';
   if(!title || !desc){ adminStatus.textContent='املأ العنوان والوصف'; return; }
+  if(!auth.currentUser || auth.currentUser.uid !== ADMIN_UID){ adminStatus.textContent='أنت لست مشرفاً'; return; }
 
-  const newRef = db.ref('projects').push();
-  const id = newRef.key;
-  let imageUrl = '';
-  if(file){
-    const storageRef = storage.ref().child('projects/'+id+'_'+file.name);
-    await storageRef.put(file);
-    imageUrl = await storageRef.getDownloadURL();
+  adminStatus.textContent = '⏳ جاري رفع المشروع...';
+  try{
+    const newRef = db.ref('projects').push();
+    const id = newRef.key;
+    let imageUrl = '';
+    if(file){
+      const storageRef = storage.ref().child('projects/'+id+'_'+file.name);
+      await storageRef.put(file);
+      imageUrl = await storageRef.getDownloadURL();
+    }
+    await newRef.set({ title, desc, image: imageUrl, createdAt: Date.now() });
+    adminStatus.textContent = '✅ تم نشر المشروع';
+    document.getElementById('projTitle').value='';
+    document.getElementById('projDesc').value='';
+    document.getElementById('projImage').value='';
+  }catch(e){
+    console.error(e);
+    adminStatus.textContent = '❌ خطأ: '+e.message;
   }
-  await newRef.set({ title, desc, image: imageUrl, createdAt: Date.now() });
-  adminStatus.textContent = '✅ تم نشر المشروع';
-  document.getElementById('projTitle').value='';
-  document.getElementById('projDesc').value='';
-  document.getElementById
+});
+
+// ===== Listen Projects =====
+db.ref('projects').orderByChild('createdAt').on('value', snapshot=>{
+  const data = snapshot.val() || {};
+  renderProjects(Object.keys(data).map(k=>({ id:k, ...data[k] })).sort((a,b)=>b.createdAt - a.createdAt));
+});
+
+function renderProjects(arr){
+  projectsGrid.innerHTML='';
+  if(arr.length===0){ projectsGrid.innerHTML='<p>لا توجد مشاريع حتى الآن.</p>'; return; }
+  arr.forEach(p=>{
+    const div = document.createElement('div'); div.className='proj-card';
+    div.innerHTML = `${p.image ? `<img src="${p.image}" alt="${p.title}">` : ''}<h4>${p.title}</h4><p>${p.desc}</p>`;
+    projectsGrid.appendChild(div);
+  });
+}
+
+// ===== Initialize =====
+showSection('home');
