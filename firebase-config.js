@@ -1,5 +1,5 @@
 const firebaseConfig = {
-  apiKey: "AIzaSyDxoEJLaGcEy7s1P2nE2_bDniS71ldI31Q",
+  apiKey: "AIzaSyAWp1YvxwS_RGi9n3j_PPSnTcjM6Y8l-k0",
   authDomain: "alhadari-net.firebaseapp.com",
   databaseURL: "https://alhadari-net-default-rtdb.firebaseio.com",
   projectId: "alhadari-net",
@@ -13,5 +13,4 @@ const auth = firebase.auth();
 const db = firebase.database();
 const storage = firebase.storage();
 
-/* ضع UID الخاص بالمشرف بعد إنشاء الحساب في Firebase Auth */
-const ADMIN_UID = "ضع_UID_هنا";
+const ADMIN_UID = "ضع_UID_هنا"; // ضع UID المشرف
