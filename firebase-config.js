@@ -1,5 +1,5 @@
-// فقط إعداد Firebase، لا تعد تعريف firebaseConfig في أي مكان آخر
-const firebaseConfig = {
+// لا تعيد تعريف firebaseConfig في أي مكان آخر
+window.firebaseConfig = {
   apiKey: "AIzaSyDxoEJLaGcEy7s1P2nE2_bDniS71ldI31Q",
   authDomain: "alhadari-net.firebaseapp.com",
   databaseURL: "https://alhadari-net-default-rtdb.firebaseio.com",
@@ -10,7 +10,7 @@ const firebaseConfig = {
   measurementId: "G-XLQB1M9FHQ"
 };
 
-firebase.initializeApp(firebaseConfig);
-const auth = firebase.auth();
-const db = firebase.database();
-const storage = firebase.storage();
+firebase.initializeApp(window.firebaseConfig);
+window.auth = firebase.auth();
+window.db = firebase.database();
+window.storage = firebase.storage();
