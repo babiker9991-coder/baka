@@ -1,8 +1,7 @@
-// firebase-config.js
-import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
-import { getDatabase } from "firebase/database";
-import { getStorage } from "firebase/storage";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
+import { getAuth } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
+import { getDatabase } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-database.js";
+import { getStorage } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-storage.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDxoEJLaGcEy7s1P2nE2_bDniS71ldI31Q",
@@ -15,9 +14,9 @@ const firebaseConfig = {
   measurementId: "G-XLQB1M9FHQ"
 };
 
-// تهيئة Firebase
 const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getDatabase(app);
+const storage = getStorage(app);
 
-export const auth = getAuth(app);
-export const db = getDatabase(app);
-export const storage = getStorage(app);
+export { auth, db, storage };
