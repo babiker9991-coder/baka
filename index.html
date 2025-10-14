@@ -3,41 +3,35 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>لوحة إدارة المشاريع</title>
+  <title>لوحة المشاريع | Alhadari Net</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header>
-    <h1>نظام إدارة المشاريع</h1>
-    <nav>
-      <a href="#" onclick="showSection('loginSection')">تسجيل الدخول</a>
-      <a href="#" onclick="showSection('dashboardSection')">لوحة التحكم</a>
-    </nav>
-  </header>
-
-  <section id="loginSection" class="section">
+  <div id="loginSection">
     <h2>تسجيل الدخول</h2>
-    <input type="email" id="email" placeholder="البريد الإلكتروني" /><br />
-    <input type="password" id="password" placeholder="كلمة المرور" /><br />
+    <input type="email" id="email" placeholder="البريد الإلكتروني" />
+    <input type="password" id="password" placeholder="كلمة المرور" />
     <button id="loginBtn">دخول</button>
-    <p id="loginStatus"></p>
-  </section>
+    <p id="loginMessage"></p>
+  </div>
 
-  <section id="dashboardSection" class="section" style="display:none;">
-    <h2>لوحة التحكم (المشرف)</h2>
-    <div id="projectForm">
-      <input type="text" id="projectName" placeholder="اسم المشروع" /><br />
-      <textarea id="projectDesc" placeholder="وصف المشروع"></textarea><br />
-      <button id="addProjectBtn">إضافة مشروع</button>
-    </div>
-    <h3>قائمة المشاريع</h3>
+  <div id="adminPanel" style="display:none;">
+    <h2>لوحة التحكم</h2>
+    <button id="logoutBtn">تسجيل الخروج</button>
+
+    <h3>إضافة مشروع جديد</h3>
+    <input type="text" id="projectName" placeholder="اسم المشروع" />
+    <textarea id="projectDesc" placeholder="وصف المشروع"></textarea>
+    <button id="addProjectBtn">إضافة المشروع</button>
+
+    <h3>جميع المشاريع</h3>
     <ul id="projectList"></ul>
-  </section>
+  </div>
 
-  <!-- مكتبات Firebase القديمة المتوافقة -->
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+  <!-- Firebase CDN -->
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js"></script>
 
   <script src="app.js"></script>
 </body>
