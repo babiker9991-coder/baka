@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>الحضري للبرمجيات</title>
+  <title>الحضري للبرمجيات - Dashboard & Site</title>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
@@ -51,15 +51,16 @@
 
 <section id="dashboard" class="page" style="display:none">
   <h2>لوحة التحكم (المشرف)</h2>
-  <div id="adminBox" class="admin-box" style="display:none">
+  <div id="adminBox" style="display:none">
     <h3>أضف مشروع جديد</h3>
     <input id="projTitle" placeholder="عنوان المشروع">
     <textarea id="projDesc" placeholder="وصف المشروع"></textarea>
     <input type="file" id="projImage" accept="image/*">
     <button class="btn" id="addProjectBtn">نشر المشروع</button>
     <p id="adminStatus" class="small"></p>
+
     <hr>
-    <h3>قائمة المشاريع</h3>
+    <h3>قائمة المشاريع (عرض سريع)</h3>
     <div id="adminProjectsList"></div>
   </div>
   <div id="notAdminMsg" style="display:none">
@@ -67,12 +68,13 @@
   </div>
 </section>
 
+<!-- Login Modal -->
 <div id="loginModal" class="modal" style="display:none">
   <div class="sheet">
     <button class="close-btn" onclick="closeLoginModal()">✖</button>
     <h3>تسجيل الدخول (مشرف)</h3>
     <input id="loginEmail" placeholder="البريد الإلكتروني">
-    <input id="loginPassword" type="password" placeholder="كلمة المرور">
+    <input id="loginPassword" placeholder="كلمة المرور" type="password">
     <div style="display:flex;gap:8px;margin-top:8px">
       <button class="btn" id="loginBtn">دخول</button>
     </div>
@@ -84,10 +86,13 @@
   <p>© 2025 الحضري للبرمجيات</p>
 </footer>
 
+<!-- Firebase SDKs -->
 <script src="https://www.gstatic.com/firebasejs/10.14.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.0/firebase-database-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.0/firebase-storage-compat.js"></script>
+
+<!-- Config & App -->
 <script src="firebase-config.js"></script>
 <script src="app.js"></script>
 </body>
