@@ -15,7 +15,7 @@ const auth = firebase.auth();
 const db = firebase.database();
 const storage = firebase.storage();
 
-const ADMIN_UID = "ضع_UID_المشرف";
+const ADMIN_babiker = "ضع_UID_المشرف";
 
 // DOM
 const projectsGrid = document.getElementById('projectsGrid');
@@ -89,3 +89,4 @@ function addProject(){
   } else {
     newRef.set({title,desc,image:'',createdAt:Date.now()});
     admin
+
