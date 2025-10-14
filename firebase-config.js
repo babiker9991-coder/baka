@@ -1,3 +1,4 @@
+// فقط إعداد Firebase، لا تعد تعريف firebaseConfig في أي مكان آخر
 const firebaseConfig = {
   apiKey: "AIzaSyDxoEJLaGcEy7s1P2nE2_bDniS71ldI31Q",
   authDomain: "alhadari-net.firebaseapp.com",
