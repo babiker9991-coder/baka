@@ -1,9 +1,12 @@
-body { font-family: Arial, sans-serif; margin:0; padding:0; background:#f0f4f8; }
-header { background:#007bff; color:#fff; padding:10px; display:flex; justify-content:space-between; align-items:center; }
-header a { color:#fff; margin:0 10px; text-decoration:none; }
-header .logo { font-weight:bold; }
+body { font-family: 'Cairo', sans-serif; margin:0; padding:0; background:#f9f9f9; color:#333; }
+.site-header { background:#1e73be; color:#fff; padding:12px 20px; display:flex; justify-content:space-between; align-items:center; }
+.site-header .logo { font-weight:800; font-size:18px; }
+.site-header .main-nav a { color:#fff; margin-left:15px; text-decoration:none; }
 .page { padding:20px; }
-#projectsGrid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:15px; }
+.hero { display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; }
+.hero-left { max-width:500px; }
+.hero-right img { max-width:400px; width:100%; border-radius:8px; }
+.projects-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:15px; margin-top:15px; }
 .proj-card { background:#fff; padding:10px; border-radius:6px; box-shadow:0 2px 5px rgba(0,0,0,0.1); }
-.proj-card img { width:100%; border-radius:6px; }
-footer { background:#007bff; color:#fff; text-align:center; padding:10px; position:fixed; width:100%; bottom:0; }
+.modal { position:fixed; top:0; left:0; width:100%; height:100%; display:flex; justify-content:center; align-items:center; background:rgba(0,0,0,0.5); }
+.sheet { background:#fff; padding:20px; border-radius:6px; width:300px; max-width:90%; }
