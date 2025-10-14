@@ -1,21 +1,46 @@
-body { font-family: 'Cairo', sans-serif; margin:0; padding:0; background:#f9f9f9; }
-.site-header { background:#0b63ce; color:#fff; padding:10px 20px; display:flex; justify-content:space-between; align-items:center; }
-.site-header .logo { font-weight:800; font-size:18px; }
-.main-nav a { color:#fff; text-decoration:none; margin-left:15px; }
-.main-nav a:hover { text-decoration:underline; }
-.auth-area button { margin-left:10px; }
-.page { padding:20px; }
-.hero { display:flex; flex-wrap:wrap; justify-content:space-between; margin-bottom:20px; }
-.hero-left { flex:1 1 300px; }
-.hero-right { flex:1 1 300px; text-align:center; }
-.hero-right img { max-width:100%; border-radius:10px; }
-.projects-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:15px; }
-.proj-card { background:#fff; padding:10px; border-radius:8px; box-shadow:0 2px 5px rgba(0,0,0,0.1); }
-.proj-card img { max-width:100%; border-radius:5px; }
-.btn { background:#0b63ce; color:#fff; border:none; padding:8px 16px; border-radius:5px; cursor:pointer; }
-.btn:hover { background:#0952a1; }
-.btn.ghost { background:transparent; border:1px solid #fff; }
-.modal { position:fixed; top:0; left:0; right:0; bottom:0; display:flex; justify-content:center; align-items:center; background:rgba(0,0,0,0.5); }
-.sheet { background:#fff; padding:20px; border-radius:8px; width:300px; }
-.close-btn { background:red; color:#fff; border:none; float:right; cursor:pointer; border-radius:50%; padding:2px 8px; }
-.admin-box input, .admin-box textarea { width:100%; margin-bottom:8px; padding:5px; }
+body {
+  font-family: "Tajawal", sans-serif;
+  background-color: #f0f4ff;
+  color: #222;
+  text-align: center;
+  padding: 20px;
+}
+
+header {
+  background-color: #007bff;
+  color: white;
+  padding: 10px;
+  border-radius: 12px;
+}
+
+nav a {
+  color: white;
+  margin: 0 10px;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+input, textarea {
+  width: 80%;
+  padding: 10px;
+  margin: 5px 0;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+.section {
+  margin-top: 20px;
+}
