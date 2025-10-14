@@ -1,4 +1,4 @@
-// ✅ إعداد Firebase
+// ✅ إعداد Firebase (الربط مع مشروعك)
 const firebaseConfig = {
   apiKey: "AIzaSyDxoEJLaGcEy7s1P2nE2_bDniS71ldI31Q",
   authDomain: "alhadari-net.firebaseapp.com",
@@ -10,11 +10,11 @@ const firebaseConfig = {
   measurementId: "G-XLQB1M9FHQ"
 };
 
-const app = firebase.initializeApp(firebaseConfig);
+firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db = firebase.database();
 
-// ✅ عرض قسم معين
+// ✅ التنقل بين الأقسام
 function showSection(id) {
   document.querySelectorAll(".section").forEach(s => s.style.display = "none");
   document.getElementById(id).style.display = "block";
@@ -34,6 +34,7 @@ document.getElementById("loginBtn").addEventListener("click", async () => {
     if (uid === "k20NLjvISFhaUL7roFU9diedfi32") {
       status.textContent = "تم تسجيل الدخول كمشرف ✅";
       showSection("dashboardSection");
+      loadProjects();
     } else {
       status.textContent = "ليس لديك صلاحيات المشرف ❌";
     }
