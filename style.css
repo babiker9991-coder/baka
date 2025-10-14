@@ -1,33 +1,113 @@
+* {
+  box-sizing: border-box;
+  margin:0;
+  padding:0;
+}
 body {
-  font-family: "Cairo", sans-serif;
-  text-align: center;
-  background: #f9f9f9;
-  direction: rtl;
+  font-family: 'Cairo', sans-serif;
+  color: #333;
+  line-height: 1.6;
+  background-color: #f4f6f9;
 }
-
-input, textarea {
-  display: block;
-  margin: 10px auto;
-  padding: 10px;
-  width: 80%;
-  border-radius: 6px;
-  border: 1px solid #ccc;
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: auto;
 }
-
-button {
-  padding: 10px 20px;
-  background: #2196f3;
+.header {
+  background: #1e73be;
+  padding: 20px 0;
+}
+.header .logo {
   color: white;
+  font-size: 28px;
+  font-weight: 800;
+  float: right;
+}
+.header nav {
+  float: left;
+}
+.header nav a {
+  color: white;
+  text-decoration: none;
+  margin: 0 15px;
+  font-size: 16px;
+}
+.header nav a:hover {
+  text-decoration: underline;
+}
+.section {
+  padding: 60px 0;
+}
+.home-section {
+  background: url('https://via.placeholder.com/1200x400.png?text=Software+Background') center/cover no-repeat;
+  color: white;
+  text-align: center;
+}
+.home-section h2 {
+  font-size: 36px;
+  margin-bottom: 20px;
+}
+.home-section p {
+  font-size: 20px;
+  margin-bottom: 30px;
+}
+.btn.primary {
+  background-color: #1e73be;
+  color: white;
+  padding: 12px 30px;
   border: none;
   border-radius: 6px;
   cursor: pointer;
 }
-
-button:hover {
-  background: #1976d2;
+.btn.primary:hover {
+  background-color: #155a9a;
 }
 
-#projectList {
-  list-style: none;
-  padding: 0;
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px,1fr));
+  gap: 30px;
+}
+.service-card {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  text-align: center;
+}
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px,1fr));
+  gap: 25px;
+}
+.project-card {
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  transition: transform 0.3s;
+}
+.project-card img {
+  width: 100%;
+  height: auto;
+}
+.project-card h4 {
+  padding: 15px;
+  font-size: 18px;
+}
+.project-card:hover {
+  transform: translateY(-5px);
+}
+
+.contact-section {
+  background: white;
+  text-align: center;
+}
+
+.footer {
+  background: #1e73be;
+  color: white;
+  padding: 20px 0;
+  text-align: center;
 }
